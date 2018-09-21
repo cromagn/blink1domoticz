@@ -1,27 +1,5 @@
-# Blink1 PlugIn
-#
-# Author: cromagn
-#
-"""
-<plugin 
-key="blink1" 
-name="Blink1 Devices" 
-author="cromagn" version="0.0.1" wikilink="http://cromagn.blogspot.com/"
-externallink="https://blink1.thingm.com/"
-description=" A plugin able to control the Blink1 led device"
->
-    <params>
-        <param label="Path to blink-tool" required="true" field="Mode6" width="200px"/>
-        <param field="Mode6" label="Debug" width="100px">
-            <options>
-                <option label="True" value="Debug"/>
-                <option label="False" value="Normal"  default="true" />
-            </options>
-        </param>
-    </params>
-</plugin>
-"""
 import Domoticz
+import subprocess
 
 class BasePlugin:
     enabled = False
@@ -31,7 +9,21 @@ class BasePlugin:
 
     def onStart(self):
         Domoticz.Log("onStart called")
+        if Parameters["Mode6"] == "Debug":
+            Domoticz.Debugging(1)
+            
+        p = subprocess.Popen(["cmd dir", "hello world"], stdout=subprocess.PIPE)
+        Domoticz.Log( p.communicate())
 
+        Domoticz.Log("Start creating devces") 
+        if (len(Devices) == 0):
+        # Mettere loop di creazione devices
+            Domoticz.Device(Name="Blink1", Unit=1, Type=241, Subtype=1).Create()
+            Domoticz.Device(Name="Blink11", Unit=2, Type=241, Subtype=2).Create()
+            Domoticz.Device(Name="Blink111", Unit=3, Type=241, Subtype=4).Create()
+            Domoticz.Device(Name="Blink1111", Unit=4, Type=241, Subtype=6).Create()
+        Domoticz.Log("Devices created.")
+    
     def onStop(self):
         Domoticz.Log("onStop called")
 
