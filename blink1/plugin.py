@@ -78,8 +78,10 @@ class BasePlugin:
        
         if str(Command)=='On':
             self.command='/blink1/on'
+            Devices[2].Update(nValue=1, sValue='On')
         if str(Command)=='Off':
             self.command='/blink1/off'
+            Devices[2].Update(nValue=0, sValue='Off')
         level=str(Level)
         hue=str(Hue)
         self.myConn.Connect()
