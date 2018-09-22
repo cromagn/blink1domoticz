@@ -11,7 +11,7 @@ A simple Domoticz plugin to blink(1) gateway
 Under the plugin directory of Domoticz
 mkdir blink1
 cd blink1
-wget https://raw.githubusercontent.com/cromagn/blink1domoticz/master/blink1/plugin.pyet 
+wget https://raw.githubusercontent.com/cromagn/blink1domoticz/master/blink1/plugin.py
 ```
 
 #### Usage:
