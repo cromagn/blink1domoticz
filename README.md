@@ -1,5 +1,7 @@
 ## blink1domoticz
 
+BETA - Not production ready - Use at your own risk
+
 A simple Domoticz plugin to blink(1) gateway 
 
 - Uses blink1-tiny-server to talk to blink(1)
