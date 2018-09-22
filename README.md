@@ -19,5 +19,6 @@ Usage:
 usage:
   Switch OFF --> Turn Blink(1) off
   Switch ON --> Turn Blink(1) on if level >95 else blink for "level" value times
-##Support:
+```
+##Support:##
 none !
