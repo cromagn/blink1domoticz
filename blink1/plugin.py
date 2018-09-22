@@ -1,6 +1,8 @@
 # Blink1 PlugIn
 #
 # Author: cromagn
+# BETA - Not production ready - Use at your own risk
+# GNU General Public License v3.0
 #
 """
 <plugin 
