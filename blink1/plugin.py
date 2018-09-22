@@ -6,7 +6,7 @@
 <plugin 
 key="blink1" 
 name="Blink(1) Devices" 
-author="cromagn" version="0.0.1" wikilink="http://cromagn.blogspot.com/"
+author="cromagn" version="0.0.3" wikilink="http://cromagn.blogspot.com/"
 externallink="https://blink1.thingm.com/"
 description=" A plugin able to control the Blink(1) led device"
 >
@@ -24,14 +24,21 @@ description=" A plugin able to control the Blink(1) led device"
 """
 import Domoticz
 import subprocess
+import ast
 
 class BasePlugin:
     myConn= None
     enabled = False
     httpConn = None
     command = 'blink1/on'
-    level=None
-    hue=None
+    level=100
+    Hue=0
+    rgb='ffffff'
+    cw=0
+    m=0
+    t=0
+    w=0
+    
     def __init__(self):
       
         return
@@ -45,7 +52,7 @@ class BasePlugin:
         if (len(Devices) == 0):
         # Mettere loop di creazione devices
             Domoticz.Device(Name="BlinkRGB", Unit=2, Type=241, Subtype=2).Create()
-         
+
         Domoticz.Log("Devices created.")
         Domoticz.Log("Start create connection.")
         self.myConn=Domoticz.Connection(Name="Blink_conn", Transport="TCP/IP", Protocol="HTTP", Address=Parameters["Address"], Port=Parameters["Mode1"])
@@ -75,16 +82,33 @@ class BasePlugin:
 
     def onCommand(self, Unit, Command, Level, Hue):
         Domoticz.Log("onCommand called for Unit " + str(Unit) + ": Parameter '" + str(Command) + "', Level: " + str(Level)+ "', Hue: " + str(Hue))
-       
+        
+        if str(Command)=='Set Color':
+            # Set Color attribute
+            self.level = Level
+            re = ast.literal_eval(str(Hue))
+            self.rgb='%.2x' % re.get("r", "00")+ '%.2x' % re.get("g", "00")+ '%.2x' % re.get("b", "00")
+            self.cw=re.get("cw", "00")
+            self.m=re.get("m", "00")
+            self.t=re.get("t", "00")
+            self.ww=re.get("ww", "00")
+             
         if str(Command)=='On':
-            self.command='/blink1/on'
-            Devices[2].Update(nValue=1, sValue='On')
+            # If level > 95--> fadeto else blink
+            if(self.level>95):
+                self.command='/blink1/fadeToRGB?rgb=%23'+str(self.rgb)+'&time=0.5'
+                #Lamp ON on the Domoticz representation
+                Devices[2].Update(nValue=1, sValue='On')
+            else:
+                self.command='/blink1/blink?rgb=%23'+str(self.rgb)+'&time=0.5&count='+  str(self.level)       
+            
+            self.myConn.Connect()
+            
         if str(Command)=='Off':
             self.command='/blink1/off'
+            #Lamp OFF on the Domoticz representation
             Devices[2].Update(nValue=0, sValue='Off')
-        level=str(Level)
-        hue=str(Hue)
-        self.myConn.Connect()
+            self.myConn.Connect()
         
       
         Domoticz.Log("onCommand ended")
