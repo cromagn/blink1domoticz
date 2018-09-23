@@ -29,6 +29,7 @@ import subprocess
 import ast
 
 class BasePlugin:
+    # Move to init ASAP
     myConn= None
     enabled = False
     httpConn = None
