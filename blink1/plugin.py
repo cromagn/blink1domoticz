@@ -29,21 +29,19 @@ import subprocess
 import ast
 
 class BasePlugin:
-    # Move to init ASAP
-    myConn= None
-    enabled = False
-    httpConn = None
-    command = 'blink1/on'
-    level=100
-    Hue=0
-    rgb='ffffff'
-    cw=0
-    m=0
-    t=0
-    w=0
     
     def __init__(self):
-      
+        self.myConn= None
+        self.enabled = False
+        self.httpConn = None
+        self.command = 'blink1/on'
+        self.level=100
+        self.Hue=0
+        self.rgb='ffffff'
+        self.cw=0
+        self.m=0
+        self.t=0
+        self.w=0
         return
 
     def onStart(self):
